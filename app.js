@@ -1,12 +1,14 @@
+require("dotenv").config();
+
 const {createPool} = require('mysql');
-//const {DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD} = process.env;
+const {DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD} = process.env;
 
 const pool = createPool({
     connectionLimit: 10,
-    host: "mdb-test.c6vunyturrl6.us-west-1.rds.amazonaws.com",
-    database: "bsale_test",
-    user: "bsale_test",
-    password: "bsale_test",
+    host: DB_HOST,
+    database: DB_DATABASE,
+    user: DB_USER,
+    password:  DB_PASSWORD,
 });
 
 pool.query(`select * from bsale_test.product`, (err, result, fields) =>{
