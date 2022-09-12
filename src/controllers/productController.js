@@ -1,6 +1,12 @@
 //const controller = {};
+const { json } = require('express/lib/response')
 const mysql = require('mysql');
-const pool = require('../app');
+var request = require('request');
+//const pool = require('../app');
+const http = require('node:http');
+const pool = new http.Agent('../app'); //Your pool/agent
+http.request({hostname:'localhost', port:3000, path:'/', agent:pool});
+request({url:"http://localhost:3000/", pool:pool });
 
 // pool.query(`select * from bsale_test.product`, (err, result, fields) =>{
 //         if(err){
@@ -16,7 +22,7 @@ const getProdByCat = async (req, res, next) => {
             if(err){
                 throw err;
             }else{
-                conexion.query('SELECT * FROM product WHERE category = ' + mysql(req.params.id)), function(err, response){
+                conexion.query('SELECT * FROM product WHERE category = ' + mysql.escape(req.params.id)), function(err, response){
                     if(err){
                         conexion.end();
                         throw err;
